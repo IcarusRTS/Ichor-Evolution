@@ -23,6 +23,7 @@ end
 
 local random = math.random
 
+local spGetUnitPosition = Spring.GetUnitPosition
 local spCreateUnit = Spring.CreateUnit
 
 --------------------------------------------------------------------------------
@@ -38,5 +39,9 @@ local unitIndex = {count = 0, info = {}}
 --------------------------------------------------------------------------------
 
 function gadget:GameFrame(f)
-	
+	if f%UPDATE_FREQUNECY == 3 then
+		for i = 1, unitIndex.count do
+			local unit = units[unitIndex[i]]
+		end
+	end
 end
