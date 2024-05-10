@@ -29,6 +29,20 @@ local spGetUnitDefID = Spring.GetUnitDefID
 local spCreateUnit = Spring.CreateUnit
 local spSpawnCEG = Spring.SpawnCEG
 
+-------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------
+-- Commands
+
+local DEFAULT_ICHOR = 1
+
+local ichorReplicationBehaviour = {
+	id      = CMD_GOO_GATHER,
+	type    = CMDTYPE.ICON_MODE,
+	name    = 'Ichor Replication',
+	action  = 'ichorstate',
+	params  = {DEFAULT_ICHOR, "On"}
+}
+
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 
@@ -70,7 +84,7 @@ function gadget:UnitCreated(unitID, unitDefID, unitTeam)
 			index = unitIndex.count,
 			defs = ichorDefs[unitDefID],
 		}
-		Spring.InsertUnitCmdDesc(unitID, gooGatherBehaviour)
+		Spring.InsertUnitCmdDesc(unitID, ichorReplicationBehaviour)
 	end
 end
 
