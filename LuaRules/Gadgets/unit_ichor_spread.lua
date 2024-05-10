@@ -40,24 +40,17 @@ local unitIndex = {count = 0, info = {}}
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 
-local function CreateUnit(unit, unitIndex)
-	local x,y,z = spGetUnitPosition(unitIndex)
-	local newId = spCreateUnit(unit.defs.spawns,x+random(-50,50),y,z+random(-50,50),random(0,3),spGetUnitTeam(unitIndex))
-	spSpawnCEG(CEG_SPAWN,
-				fx, fy, fz,
-				0, 0, 0,
-				30, 30
-			)
-end
-
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
-
 function gadget:GameFrame(f)
-	if f%UPDATE_FREQUNECY == 3 then
+	if f%UPDATE_FREQUNECY == 0 then
 		for i = 1, unitIndex.count do
 			local unit = units[unitIndex[i]]
-			timer.performWithDelay(unit.defs.cooldown, CreateUnit(unit, unitIndex[i]))
+			local x,y,z = spGetUnitPosition(unitIndex[i])
+			local newId = spCreateUnit(unit.defs.spawns,x+random(-50,50),y,z+random(-50,50),random(0,3),spGetUnitTeam(unitIndex[i]))
+			spSpawnCEG(CEG_SPAWN,
+						fx, fy, fz,
+						0, 0, 0,
+						30, 30
+					)
 		end
 	end
 end
