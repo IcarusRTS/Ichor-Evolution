@@ -78,6 +78,10 @@ return { turretlaser = {
 
         light_color = [[0.4 1.1 1.1]],
         light_radius = 120,
+
+        ichor_spread = 1,
+        ichor_spread_spawn = "turretlaser",
+        ichor_spread_cooldown = 10,
       },
 
       damage                  = {
