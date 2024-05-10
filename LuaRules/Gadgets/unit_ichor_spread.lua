@@ -25,6 +25,7 @@ local random = math.random
 
 local spGetUnitPosition = Spring.GetUnitPosition
 local spGetUnitTeam = Spring.GetUnitTeam
+local spGetUnitDefID = Spring.GetUnitDefID
 local spCreateUnit = Spring.CreateUnit
 local spSpawnCEG = Spring.SpawnCEG
 
@@ -52,5 +53,44 @@ function gadget:GameFrame(f)
 						30, 30
 					)
 		end
+	end
+end
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+
+function gadget:UnitCreated(unitID, unitDefID, unitTeam)
+	if ichorDefs[unitDefID] then
+		unitIndex.count = unitIndex.count + 1
+		unitIndex[unitIndex.count] = unitID
+	
+		units[unitID] = {
+			progress = 0,
+			oldProgress = 0,
+			index = unitIndex.count,
+			defs = ichorDefs[unitDefID],
+		}
+		Spring.InsertUnitCmdDesc(unitID, gooGatherBehaviour)
+	end
+end
+
+function gadget:UnitDestroyed(unitID, unitDefID, unitTeam)
+	if ichorDefs[unitDefID] then
+		unitIndex[units[unitID].index] = unitIndex[unitIndex.count] -- move index from end to index to be deleted
+		units[unitIndex[unitIndex.count]].index = units[unitID].index -- update index of unit at end
+		unitIndex[unitIndex.count] = nil -- remove index at end
+		unitIndex.count = unitIndex.count - 1 -- remove index at end too
+		units[unitID] = nil -- remove unit to be deleted
+	end
+end
+
+function gadget:Initialize()
+	Spring.SetGameRulesParam("ichorState",1)
+	
+	-- load active units
+	for _, unitID in ipairs(Spring.GetAllUnits()) do
+		local unitDefID = spGetUnitDefID(unitID)
+		local teamID = spGetUnitTeam(unitID)
+		gadget:UnitCreated(unitID, unitDefID, teamID)
 	end
 end
