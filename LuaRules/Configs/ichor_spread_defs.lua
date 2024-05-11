@@ -1,5 +1,5 @@
 local unitArray = {}
-local UPDATE_FREQUENCY = 10
+local UPDATE_FREQUENCY = 30
 
 for i=1, #UnitDefs do
 	local cp = UnitDefs[i].customParams
