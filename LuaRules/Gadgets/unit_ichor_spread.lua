@@ -29,20 +29,6 @@ local spGetUnitDefID = Spring.GetUnitDefID
 local spCreateUnit = Spring.CreateUnit
 local spSpawnCEG = Spring.SpawnCEG
 
--------------------------------------------------------------------------------------
--------------------------------------------------------------------------------------
--- Commands
-
-local DEFAULT_ICHOR = 1
-
-local ichorReplicationBehaviour = {
-	id      = CMD_GOO_GATHER,
-	type    = CMDTYPE.ICON_MODE,
-	name    = 'Ichor Replication',
-	action  = 'ichorstate',
-	params  = {DEFAULT_ICHOR, "On"}
-}
-
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 
@@ -79,12 +65,9 @@ function gadget:UnitCreated(unitID, unitDefID, unitTeam)
 		unitIndex[unitIndex.count] = unitID
 	
 		units[unitID] = {
-			progress = 0,
-			oldProgress = 0,
 			index = unitIndex.count,
 			defs = ichorDefs[unitDefID],
 		}
-		Spring.InsertUnitCmdDesc(unitID, ichorReplicationBehaviour)
 	end
 end
 
@@ -98,9 +81,7 @@ function gadget:UnitDestroyed(unitID, unitDefID, unitTeam)
 	end
 end
 
-function gadget:Initialize()
-	Spring.SetGameRulesParam("ichorState",1)
-	
+function gadget:Initialize()	
 	-- load active units
 	for _, unitID in ipairs(Spring.GetAllUnits()) do
 		local unitDefID = spGetUnitDefID(unitID)
