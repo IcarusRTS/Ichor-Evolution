@@ -20,6 +20,9 @@ return { turretlaser = {
     outline_x = 70,
     outline_y = 100,
     outline_yoff = 32.5,
+
+    ichor_spread = 1,
+    ichor_spread_spawn = "turretlaser"
   },
 
   explodeAs                     = [[SMALL_BUILDINGEX]],
