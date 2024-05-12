@@ -28,16 +28,13 @@ local spGetUnitTeam = Spring.GetUnitTeam
 local spGetUnitDefID = Spring.GetUnitDefID
 local spCreateUnit = Spring.CreateUnit
 local spSpawnCEG = Spring.SpawnCEG
+local spTestBuildOrder = Spring.TestBuildOrder
 
 --------------------------------------------------------------------------------
--- Code written by Arch-Shaman -------------------------------------------------
+-- Original Code written by Arch-Shaman -------------------------------------------------
 
-local function CanUnitDropHere(startBoxID, unitDefID, x, y, z, facing, checkForFeature, checkForStartBox)
-	if checkForStartBox then
-		local inBox = GG.CheckStartbox(startBoxID, x, z)
-		if not inBox then return false end
-	end
-	local blocking, feature = Spring.TestBuildOrder(unitDefID, x, y, z, facing)
+local function CanUnitDropHere(startBoxID, unitDefID, x, y, z, facing, checkForFeature)
+	local blocking, feature = spTestBuildOrder(unitDefID, x, y, z, facing)
 	if checkForFeature then
 		return blocking == 3 -- Recoil engine now has 3 for "free", 2 for "blocked by feature"
 	else
