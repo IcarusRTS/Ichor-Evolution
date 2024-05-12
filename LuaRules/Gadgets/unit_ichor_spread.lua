@@ -31,9 +31,9 @@ local spSpawnCEG = Spring.SpawnCEG
 local spTestBuildOrder = Spring.TestBuildOrder
 
 --------------------------------------------------------------------------------
--- Original Code written by Arch-Shaman -------------------------------------------------
+-- Original Code written by Arch-Shaman ----------------------------------------
 
-local function CanUnitDropHere(startBoxID, unitDefID, x, y, z, facing, checkForFeature)
+local function CanUnitDropHere(unitDefID, x, y, z, facing, checkForFeature)
 	local blocking, feature = spTestBuildOrder(unitDefID, x, y, z, facing)
 	if checkForFeature then
 		return blocking == 3 -- Recoil engine now has 3 for "free", 2 for "blocked by feature"
@@ -43,7 +43,6 @@ local function CanUnitDropHere(startBoxID, unitDefID, x, y, z, facing, checkForF
 end
 
 local function GetClosestValidSpawnSpot(teamID, unitDefID, facing, x, z)
-	local startBoxID = Spring.GetTeamRulesParam(teamID, "start_box_id")
 	local radius = 16
 	local canDropHere = false
 	local mag = 1
@@ -57,7 +56,7 @@ local function GetClosestValidSpawnSpot(teamID, unitDefID, facing, x, z)
 		nx = x + offsetX
 		nz = z + offsetZ
 		ny = Spring.GetGroundHeight(nx, nz)
-		canDropHere = CanUnitDropHere(startBoxID, unitDefID, nx, ny, nz, facing, false, true)
+		canDropHere = CanUnitDropHere(unitDefID, nx, ny, nz, facing, false)
 		if canDropHere then
 			return nx, ny, nz
 		end
